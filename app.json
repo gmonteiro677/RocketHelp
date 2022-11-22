@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "tijucahelp",
+    "slug": "tijucahelp",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
