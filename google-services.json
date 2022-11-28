@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "998610795814",
+    "project_id": "tijucahelp",
+    "storage_bucket": "tijucahelp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998610795814:android:d02d3548d2be66232955e7",
+        "android_client_info": {
+          "package_name": "com.tijucahelp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "998610795814-0co5163ire708o7fgm724gprprp8shub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi9DEFjSbagkvq2-8aElq07hY4StmIltU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "998610795814-0co5163ire708o7fgm724gprprp8shub.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "998610795814-jrob4uks61n6nm1iv8c8sc29cthkvg2k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tijucahelp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
