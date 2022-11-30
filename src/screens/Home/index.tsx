@@ -6,6 +6,8 @@ import Logo from '../../assets/logo_secondary.svg'
 import { Filter } from "../../components/Filter";
 import { Order, OrderProps } from "../../components/Order";
 import { Button } from "../../components/Button";
+import auth from '@react-native-firebase/auth';
+import { Alert } from "react-native";
 
 export function Home() {
 
@@ -30,6 +32,14 @@ function handleOpenDetails(orderId: string) {
   navigation.navigate('details', {orderId})
 }
 
+  function handleLogout() {
+      auth()
+      .signOut()
+      .catch(error => {
+        return Alert.alert('Sair', 'Não foi possivel sair.')
+      })
+  }
+
   return(
     <VStack flex={1} pb={6} bg="gray.700">
        <HStack
@@ -43,6 +53,7 @@ function handleOpenDetails(orderId: string) {
        >
       <Logo/>
       <IconButton
+        onPress={handleLogout}
         icon={<SignOut size={26} color={colors.gray[300]} />}
       />
        </HStack>

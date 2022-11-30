@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import auth from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth'
 import { Alert } from 'react-native';
 import { VStack, Heading, Icon, useTheme } from 'native-base';
 import {User, Key } from 'phosphor-react-native';
@@ -22,9 +22,9 @@ function handleSignIn() {
 
   auth()
   .signInWithEmailAndPassword(isEmail, isSenha)
+  .then(res => {
+  })
   .catch((error) => {
-    console.log(error);
-    setIsloading(false); 
 
     if(error.code === 'auth/invalid-email') {
       return Alert.alert('Entrar', 'E-mail ou senha inválido')
@@ -41,6 +41,7 @@ function handleSignIn() {
     return Alert.alert('Entrar', 'Não foi possivel acessar')
 
   })
+    .finally(() => setIsloading(false))
 }
 
   return(
