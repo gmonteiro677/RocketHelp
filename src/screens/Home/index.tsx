@@ -1,25 +1,23 @@
-import { HStack, VStack, IconButton, useTheme, Text, Heading, FlatList, Center } from "native-base";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SignOut, ChatTeardropText } from "phosphor-react-native";
-import Logo from '../../assets/logo_secondary.svg'
+
+import { HStack, VStack, IconButton, useTheme, Text, Heading, FlatList, Center } from "native-base";
+import firestore from "@react-native-firebase/firestore"
+import auth from '@react-native-firebase/auth';
+import { dateFormat } from "../../utils/firestoreDateFormat";
+
 import { Filter } from "../../components/Filter";
 import { Order, OrderProps } from "../../components/Order";
 import { Button } from "../../components/Button";
-import auth from '@react-native-firebase/auth';
-import { Alert } from "react-native";
+import { Loading } from "../../components/Loading";
+import Logo from '../../assets/logo_secondary.svg'
 
 export function Home() {
-
+const [isLoading, setIsLoading] = useState(true)
 const [isStatusSelected, setIsStatusSelected] = useState<'open' | 'closed' >('open')
-const [isOrder, setIsOrder] = useState<OrderProps[]>([
-  {
-   id: '123',
-   patrimony: '123456',
-   when: '18/45/1526 ás 10:30',
-   status: 'open'
-  }
-])
+const [isOrder, setIsOrder] = useState<OrderProps[]>([])
 
 const navigation = useNavigation()
 const {colors} = useTheme();
@@ -39,6 +37,34 @@ function handleOpenDetails(orderId: string) {
         return Alert.alert('Sair', 'Não foi possivel sair.')
       })
   }
+
+  useEffect(() => {
+    setIsLoading(true)
+
+    const subscriber = firestore()
+    .collection('orders')
+    .where('status', '==', isStatusSelected )
+    .onSnapshot(snapshot => {
+      const data = snapshot.docs.map(doc => {
+         const { patrimony, description, status, created_at } = doc.data()
+
+         return {
+           id: doc.id,
+           patrimony,
+           description,
+           status,
+           when: dateFormat(created_at)
+         }
+      })
+
+      setIsOrder(data)
+      setIsLoading(false)
+
+    })
+
+      return subscriber
+
+  }, [isStatusSelected])
 
   return(
     <VStack flex={1} pb={6} bg="gray.700">
@@ -63,7 +89,7 @@ function handleOpenDetails(orderId: string) {
               Solicitações
             </Heading>
           <Text color="gray.200">
-            {Order.length}
+            {isOrder.length}
           </Text>
           </HStack>
            <HStack space={3} mb={8}>
@@ -80,6 +106,8 @@ function handleOpenDetails(orderId: string) {
               isActive={isStatusSelected === 'closed'}
              />
           </HStack>
+          {
+            isLoading ? <Loading /> :
           <FlatList
            data={isOrder}
            keyExtractor={item => item.id}
@@ -96,6 +124,7 @@ function handleOpenDetails(orderId: string) {
             </Center>
            )}
           />
+           }
           <Button
           title="Nova solicitação"
           onPress={handleNemOrder}
